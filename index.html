@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tebak Kata Aesthetic</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .game-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    text-align: center;
+    width: 350px;
+    animation: fadeIn 1s ease;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: slideIn 1s ease;
+  }
+
+  .word {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    margin: 20px 0;
+    animation: bounceIn 0.8s ease;
+  }
+
+  input {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 15px;
+    outline: none;
+    font-size: 16px;
+    margin-bottom: 15px;
+    width: 80%;
+    text-align: center;
+    transition: 0.3s;
+  }
+
+  input:focus {
+    box-shadow: 0 0 10px #667eea;
+  }
+
+  button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(118,75,162,0.4);
+  }
+
+  .message {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    min-height: 24px;
+    animation: fadeIn 0.5s ease;
+  }
+
+  /* Animasi */
+  @keyframes fadeIn {
+    from {opacity:0; transform: translateY(10px);}
+    to {opacity:1; transform: translateY(0);}
+  }
+  @keyframes slideIn {
+    from {transform: translateX(-50px); opacity:0;}
+    to {transform: translateX(0); opacity:1;}
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0.5); opacity:0;}
+    60% { transform: scale(1.2); opacity:1;}
+    100% { transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>Tebak Kata 🎉</h1>
+    <div class="word" id="scrambled-word">----</div>
+    <input type="text" id="answer" placeholder="Jawaban kamu...">
+    <br>
+    <button onclick="checkAnswer()">Tebak</button>
+    <div class="message" id="message"></div>
+  </div>
+
+<script>
+  const words = ["KOMPUTER","JARINGAN","INTERNET","GAMING","TEKNOLOGI","PROGRAM","JAVASCRIPT","MOBILE","ANDROID","DESAIN"];
+  let currentWord = "";
+  let scrambled = "";
+
+  function shuffle(word) {
+    return word.split("").sort(() => Math.random() - 0.5).join("");
+  }
+
+  function newWord() {
+    currentWord = words[Math.floor(Math.random() * words.length)];
+    scrambled = shuffle(currentWord);
+    while(scrambled === currentWord) {
+      scrambled = shuffle(currentWord);
+    }
+    document.getElementById("scrambled-word").textContent = scrambled;
+    document.getElementById("answer").value = "";
+    document.getElementById("message").textContent = "";
+  }
+
+  function checkAnswer() {
+    const answer = document.getElementById("answer").value.toUpperCase();
+    const message = document.getElementById("message");
+    if(answer === currentWord) {
+      message.style.color = "green";
+      message.textContent = "🎉 Benar!";
+      setTimeout(newWord, 1500);
+    } else {
+      message.style.color = "red";
+      message.textContent = `❌ Salah! Jawaban: ${currentWord}`;
+      setTimeout(newWord, 2000);
+    }
+  }
+
+  // mulai pertama
+  newWord();
+</script>
+</body>
+</html>
